@@ -15,18 +15,25 @@ const Div = styled.div`
 `;
 
 class CratePollStepOne extends React.Component {
+  updateQuestions = (e) => {
+    this.props.questionOutput[e.target.id] = e.target.value;
+    console.log(this.props.questionOutput);
+  };
+
   createQuestions = (num) => {
-    console.log(this.props);
     const input = [];
 
     for (var i = 1; i <= num; i++) {
       input.push(
-        <input
-          type="text"
-          id={"question"}
-          name={"question"}
-          placeholder={"Question #" + i}
-        />
+        <>
+          <input
+            type="text"
+            id={"question" + i}
+            name={"question" + i}
+            placeholder={"Question #" + i}
+            onChange={this.updateQuestions}
+          />
+        </>
       );
     }
 
@@ -34,6 +41,10 @@ class CratePollStepOne extends React.Component {
   };
 
   render() {
+    if (this.props.currentStep !== 1) {
+      return null;
+    }
+
     return (
       <>
         <input
@@ -61,7 +72,6 @@ class CratePollStepOne extends React.Component {
           onChange={this.props.handleChange}
         />
         {this.createQuestions(this.props.questions)}
-        <input type="button" id="next" name="next" value="Next" />
       </>
     );
   }
